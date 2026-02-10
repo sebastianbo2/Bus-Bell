@@ -16,6 +16,7 @@ import IFeedEntity = transit_realtime.IFeedEntity;
 import getBusesWithinRadius from '@/services/getBusesWithinRadius';
 import { BusWithStop } from '@/interfaces/interfaces';
 import { useUser } from '@/services/useUser';
+import search from './search';
 
 const index = () => {
     registerForNotifications()
@@ -31,7 +32,7 @@ const index = () => {
         getCurrentLocation(setLocation, setErrorMsg)
     }, [])
 
-    // const { data: tripUpdatesData, isLoading, error } = useUser();
+    const { data: tripUpdatesData, isLoading, error } = useUser();
 
     /*
     // const {
@@ -47,25 +48,25 @@ const index = () => {
     // } = useFetch(() => fetchVehiclePositions());
     */
 
-    // let tmpFavorites: BusWithStop[] = []
+    let tmpFavorites: BusWithStop[] = []
 
 
-    // const nearbyElement = <Nearby
-    //     locationAllowed={location !== null}
-    //     userLat={location?.coords.latitude}
-    //     userLon={location?.coords.longitude}
-    //     gtfsData={tripUpdatesData}
-    //     radiusKm={0.5}
-    // />
+    const nearbyElement = <Nearby
+        locationAllowed={location !== null}
+        userLat={location?.coords.latitude}
+        userLon={location?.coords.longitude}
+        gtfsData={tripUpdatesData}
+        radiusKm={0.5}
+    />
 
-    // if (tripUpdatesData) {
-    //     getBusesWithinRadius(location?.coords.latitude || 0, location?.coords.longitude || 0, tripUpdatesData, 0.5)
-    // }
+    if (tripUpdatesData) {
+        getBusesWithinRadius(location?.coords.latitude || 0, location?.coords.longitude || 0, tripUpdatesData, 0.5)
+    }
 
     return (
         <View className='flex-1 bg-[#273854] flex flex-col gap-4 pt-12'>
             {/* NOTIFICATION TEST BUTTON, DELETE TOUCHABLE OPACITY TO FIX MENU */}
-                <TouchableOpacity className='absolute top-[110px] right-[25px] bg-[#ffffff] w-[80px] h-10 z-[1000] items-center justify-center rounded-full'
+                <TouchableOpacity className='absolute top-[160px] right-[18px] bg-[#ffffff] w-[80px] h-10 z-[1000] items-center justify-center rounded-full opacity-[0.7]'
                     onPress={async () => {
                         await sendBusNotification({
                                 busNumber: "XXX",
@@ -115,9 +116,11 @@ const index = () => {
                 </TouchableOpacity>
             </View>
 
-            <View className='bg-[#FFFFFF]'>
-                    <Text>sss</Text>
-                    {/* <Link href={}></Link> */}
+            <View className='items-center flex'>
+                    <TouchableOpacity className="w-[150px] h-[40px] bg-[#FF0000] justify-center items-center font-bold rounded-xl" 
+                    onPress={() => router.push("/search")}>
+                        <Text>Bus List</Text>
+                    </TouchableOpacity>
             </View>
 
             {/* {tmpFavorites && tmpFavorites.length > 0 && activeTab === 'favorites' ?
@@ -127,9 +130,9 @@ const index = () => {
                     {nearbyElement}
                 </View>
             } */}
-            {/* <View className="flex-1">
+            <View className="flex-1">
                     {nearbyElement}
-                </View> */}
+                </View>
         </View>
     )
 }

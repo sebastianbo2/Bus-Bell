@@ -7,6 +7,6 @@ export function useUser() {
     queryKey: ['user'],
     queryFn: fetchTripUpdates,
     staleTime: 5 * 60 * 1000,
-    refetchInterval: 60 * 1000,
+    refetchInterval: 1 * 60 * 1000,
   });
 }
