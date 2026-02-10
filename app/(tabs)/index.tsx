@@ -24,87 +24,62 @@ const index = () => {
 
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [mapEnabled, setMapEnabled] = useState(false);
+
     useEffect(() => {
         getCurrentLocation(setLocation, setErrorMsg)
     }, [])
 
-    // setTimeout( () => {
-    //     useEffect(() => {
-    //     sendNotification();
-    // }, [])}, 1000
-    // )
+    // const {
+    //     data: tripUpdatesData,
+    //     loading: tripUpdatesLoading,
+    //     error: tripUpdatesError,
+    // } = useFetch(() => fetchTripUpdates());
 
-    // BASE OBJECT : vehiclePositionsData & tripUpdatesData
-    // OBJECT.entity gives an array of all buses (use array indexing to access one object, ex: OBJECT.entity[0])
+    // const {
+    //     data: vehiclePositionsData,
+    //     loading: vehiclePositionsLoading,
+    //     error: vehiclePositionsError,
+    // } = useFetch(() => fetchVehiclePositions());
 
-    const {
-        data: tripUpdatesData,
-        loading: tripUpdatesLoading,
-        error: tripUpdatesError,
-    } = useFetch(() => fetchTripUpdates());
+    // let tmpFavorites: BusWithStop[] = []
 
-    const {
-        data: vehiclePositionsData,
-        loading: vehiclePositionsLoading,
-        error: vehiclePositionsError,
-    } = useFetch(() => fetchVehiclePositions());
 
-    // console.log(tripUpdatesData?.entity[0]);
-    // console.log(vehiclePositionsData?.entity[0].vehicle?.position)
+    // const nearbyElement = <Nearby
+    //     locationAllowed={location !== null}
+    //     userLat={location?.coords.latitude}
+    //     userLon={location?.coords.longitude}
+    //     gtfsData={tripUpdatesData}
+    //     radiusKm={0.5}
+    // />
 
-    // vehiclePositionsData?.entity.forEach((busTrip : any) => {
-    //     if (busTrip.vehicle?.trip?.routeId === '51') {
-    //         // console.log(busTrip.vehicle?.position);
-    //     }
-    // })
-
-    let tmpFavorites: BusWithStop[] = []
-    // if (vehiclePositionsData && tripUpdatesData) {
-    //     // tmpFavorites = [
-    //     //     {positionData: vehiclePositionsData?.entity[0], tripData: tripUpdatesData?.entity[0]},
-    //     //     {positionData: vehiclePositionsData?.entity[1], tripData: tripUpdatesData?.entity[1]}
-    //     // ];
-    //     tmpFavorites = [
-    //         vehiclePositionsData?.entity[0],
-    //         vehiclePositionsData?.entity[1]
-    //     ]
+    // if (tripUpdatesData) {
+    //     getBusesWithinRadius(location?.coords.latitude || 0, location?.coords.longitude || 0, tripUpdatesData, 0.5)
     // }
 
-    // tmpFavorites = vehiclePositionsData?.entity.slice(0, 2)
-
-
-    const nearbyElement = <Nearby
-        locationAllowed={location !== null}
-        userLat={location?.coords.latitude}
-        userLon={location?.coords.longitude}
-        gtfsData={tripUpdatesData}
-        radiusKm={0.5}
-    />
-
-    if (tripUpdatesData) {
-    // console.log(
-        getBusesWithinRadius(location?.coords.latitude || 0, location?.coords.longitude || 0, tripUpdatesData, 0.5)
-    // )
-    }
-    // DISPLAY NEARBY STOPS -- TEST
-    // useEffect(() => {
-    //     if (location?.coords.latitude && location.coords.longitude) {
-    //         const nearbyStops = getBusesWithinRadius(location?.coords.latitude, location?.coords.longitude, 0.5)
-
-    //         nearbyStops.forEach((stop) => {
-    //             console.log("STOP: ", stop)
-    //         })
-    //     }
-    // }, [location])
-
     return (
-        <View className='flex-1 bg-[#273854] flex flex-col gap-4'>
-            <View className='h-[40%]'>
+        <View className='flex-1 bg-[#273854] flex flex-col gap-4 pt-12'>
+            {/* NOTIFICATION TEST BUTTON, DELETE TOUCHABLE OPACITY TO FIX MENU */}
+                <TouchableOpacity className='absolute top-[110px] right-[25px] bg-[#ffffff] w-[80px] h-10 z-[1000] items-center justify-center rounded-full'
+                    onPress={async () => {
+                        await sendBusNotification({
+                                busNumber: "XXX",
+                                busName: "Bus Name",
+                                intersection: "Street 1/Street 2",
+                                estimatedTime: "X minutes"},
+                            () => {});
+                        console.log("Notification sent!")
+                    }}
+                >
+                    <Text>Test Bell</Text>
+                </TouchableOpacity>
+
+            {(mapEnabled) ? <View className='h-[40%]'>
                 <Map />
-            </View>
+            </View>: ""}
 
             {/* Toggle tabs */}
-            <View className="flex flex-row my-4 mx-12">
+            <View className="flex flex-row my-4 mx-12 z-[100]">
                 <TouchableOpacity
                     style={{
                         flex: 1,
@@ -133,21 +108,6 @@ const index = () => {
                 >
                     <Text style={{ color: 'white' }}>Nearby</Text>
                 </TouchableOpacity>
-
-                {/* NOTIFICATION TEST BUTTON, DELETE TOUCHABLE OPACITY TO FIX MENU */}
-                <TouchableOpacity
-                    onPress={async () => {
-                        await sendBusNotification({
-                                busNumber: "XXX",
-                                busName: "Bus Name",
-                                intersection: "Street 1/Street 2",
-                                estimatedTime: "X minutes"},
-                            () => {});
-                        console.log("Notification sent!")
-                    }}
-                >
-                    <Text>Click for notif</Text>
-                </TouchableOpacity>
             </View>
 
             {/* {tmpFavorites && tmpFavorites.length > 0 && activeTab === 'favorites' ?
@@ -158,7 +118,7 @@ const index = () => {
                 </View>
             } */}
             <View className="flex-1">
-                    {nearbyElement}
+                    {/* {nearbyElement} */}
                 </View>
         </View>
     )
