@@ -1,22 +1,27 @@
 import { Stack } from "expo-router";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './globals.css';
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      />
+    <QueryClientProvider client={queryClient}>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+        />
 
-      {/* <Stack.Screen
-        name="schedules/[id]"
-        options={{
-          headerShown: false,
-        }}
-      /> */}
-    </Stack>
+        {/* <Stack.Screen
+          name="schedules/[id]"
+          options={{
+            headerShown: false,
+          }}
+        /> */}
+      </Stack>
+    </QueryClientProvider>
   );
 }

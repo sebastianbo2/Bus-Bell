@@ -15,6 +15,7 @@ import IFeedEntity = transit_realtime.IFeedEntity;
 // import BusCardsList from "@/components/BusCardsList";
 import getBusesWithinRadius from '@/services/getBusesWithinRadius';
 import { BusWithStop } from '@/interfaces/interfaces';
+import { useUser } from '@/services/useUser';
 
 const index = () => {
     registerForNotifications()
@@ -30,6 +31,9 @@ const index = () => {
         getCurrentLocation(setLocation, setErrorMsg)
     }, [])
 
+    // const { data: tripUpdatesData, isLoading, error } = useUser();
+
+    /*
     // const {
     //     data: tripUpdatesData,
     //     loading: tripUpdatesLoading,
@@ -41,6 +45,7 @@ const index = () => {
     //     loading: vehiclePositionsLoading,
     //     error: vehiclePositionsError,
     // } = useFetch(() => fetchVehiclePositions());
+    */
 
     // let tmpFavorites: BusWithStop[] = []
 
@@ -79,7 +84,7 @@ const index = () => {
             </View>: ""}
 
             {/* Toggle tabs */}
-            <View className="flex flex-row my-4 mx-12 z-[100]">
+            <View className="flex flex-row my-4 mx-12 z-[100] pt-10">
                 <TouchableOpacity
                     style={{
                         flex: 1,
@@ -110,6 +115,11 @@ const index = () => {
                 </TouchableOpacity>
             </View>
 
+            <View className='bg-[#FFFFFF]'>
+                    <Text>sss</Text>
+                    {/* <Link href={}></Link> */}
+            </View>
+
             {/* {tmpFavorites && tmpFavorites.length > 0 && activeTab === 'favorites' ?
                 // <BusCardsList data={tmpFavorites} /> :
                 
@@ -117,9 +127,9 @@ const index = () => {
                     {nearbyElement}
                 </View>
             } */}
-            <View className="flex-1">
-                    {/* {nearbyElement} */}
-                </View>
+            {/* <View className="flex-1">
+                    {nearbyElement}
+                </View> */}
         </View>
     )
 }

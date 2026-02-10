@@ -14,7 +14,7 @@ interface Props {
     locationAllowed: boolean;
     userLat: number | undefined;
     userLon: number | undefined;
-    gtfsData: FeedMessage | null;
+    gtfsData: FeedMessage | undefined;
     radiusKm: number
 }
 
