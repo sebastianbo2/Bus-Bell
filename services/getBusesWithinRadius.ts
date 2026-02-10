@@ -46,7 +46,7 @@ interface BusWithDistance extends IFeedEntity {
     distanceKm: number;
 }
 
-interface StopData {
+export interface StopData {
     stop_id: String,
     stop_lat: number,
     stop_lon: number,

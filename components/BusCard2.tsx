@@ -14,7 +14,7 @@ const BusCard2 = (bus: BusRoute) => {
         <TouchableOpacity 
         className='flex flex-row items-center gap-[15px] w-[330px] h-[60px] bg-[#606060] pl-[10px] rounded-2xl'
         onPress={() => router.push({
-            pathname: '/prompt',
+            pathname: '/busStops',
             params: {
                 busId: String(bus.route_id),
                 busName: String(bus.route_name),
