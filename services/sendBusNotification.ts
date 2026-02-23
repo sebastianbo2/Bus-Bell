@@ -8,13 +8,13 @@ interface BusData {
   busNumber: String,
   busName: String,
   intersection: String,
-  estimatedTime: String,
+  estimatedTime: string,
 }
 
 const sendBusNotification = async (data: BusData, callBackFunction: Function,) => {
-  const { busNumber, busName, intersection ,estimatedTime } =  data
+  const { busNumber, busName, intersection , estimatedTime } =  data
 
-  await scheduleBusNotification(busNumber, busName, intersection, estimatedTime);
+  await scheduleBusNotification(busNumber, busName, intersection, 7, 5);
 
   () => (callBackFunction())
 }
@@ -28,7 +28,9 @@ Notifications.setNotificationHandler({
   }),
 });
 
-async function scheduleBusNotification(busNumber: String, busName: String, intersection: String, estimatedTime: String) {
+export async function scheduleBusNotification(busNumber: String, busName: String, intersection: String, estimatedTime: number, value: number) {
+  console.log("VAL: " + ((estimatedTime - value) * 60))
+
   await Notifications.scheduleNotificationAsync({
     content: {
       title: `${busNumber} - ${busName} 🚌`,
@@ -37,7 +39,7 @@ async function scheduleBusNotification(busNumber: String, busName: String, inter
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-      seconds: 1
+      seconds: (estimatedTime - value) * 60,
     },
   });
 }

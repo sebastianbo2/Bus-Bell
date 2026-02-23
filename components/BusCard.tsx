@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Text, TouchableOpacity, View} from 'react-native';
-import {Link} from "expo-router";
+import {Link, useRouter} from "expo-router";
 import {MaterialIcons} from "@expo/vector-icons";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import getBusColor from "../services/getBusColor";
@@ -12,6 +12,7 @@ import IFeedEntity = transit_realtime.IFeedEntity;
 import { BusWithDistance, BusWithStop } from '@/interfaces/interfaces';
 
 const BusCard = (entry: BusWithStop) => {
+    const router = useRouter();
     const routeId = entry.busId
     const BGCOLOR = routeId !== "N/A" ? getBusColor(routeId) : "009EE0";
 
@@ -22,7 +23,18 @@ const BusCard = (entry: BusWithStop) => {
 
     return (
         // <Link href={`schedules/${id}`} asChild>
-        <TouchableOpacity className="bg-light-300 w-[100%] h-20 px-2 py-4 flex flex-row justify-between items-center">
+        <TouchableOpacity className="bg-light-300 w-[100%] h-20 px-2 py-4 flex flex-row justify-between items-center" 
+        onPress={() => router.push({
+            pathname: '/notifPrompt',
+            params: {
+                busId: entry.busId,
+                //@ts-ignore
+                stopId: entry.stopId,
+                //@ts-ignore
+                intersection: entry.stopName,
+                time: ETA
+            }
+        })}>
             <View className="flex flex-row gap-3">
                 <View style={{backgroundColor: `#${BGCOLOR}`}} className="flex justify-center items-center w-20 h-12">
                     <Text className="text-white font-bold text-xl">{routeId}</Text>
